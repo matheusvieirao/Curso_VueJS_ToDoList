@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import uuid from "uuid";
-
 export default {
   name: "AddTodo",
   data() {
@@ -20,8 +18,8 @@ export default {
   methods: {
     addTodo(e) {
       e.preventDefault(); //acho que nao esta funcionando. O form continua sendo submited
+      e.stopImmediatePropagation();
       const newTodo = {
-        id: uuid.v4(),
         title: this.title,
         completed: false
       };

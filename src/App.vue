@@ -10,6 +10,7 @@
 import Header from "./components/Header.vue";
 import TodoList from "./components/TodoList";
 import AddTodo from "./components/AddTodo";
+import axios from "axios";
 
 export default {
   name: "app",
@@ -20,27 +21,38 @@ export default {
   },
   data() {
     return {
-      todolist_app: [
-        {
-          id: 1,
-          title: "Item 1",
-          completed: false
-        },
-        {
-          id: 2,
-          title: "Item 2",
-          completed: false
-        }
-      ]
+      todolist_app: []
     };
   },
   methods: {
     deleteTodo(id) {
-      this.todolist_app = this.todolist_app.filter(todo => todo.id != id);
+      axios
+        .delete(`http://jsonplaceholder.typicode.com/todos/${id}`)
+        .then(
+          resp =>
+            (this.todolist_app = this.todolist_app.filter(
+              todo => todo.id != id
+            ))
+        )
+        .catch(err => console.log(err));
     },
     addTodo(newTodo) {
-      this.todolist_app = [...this.todolist_app, newTodo];
+      const { title, completed } = newTodo;
+
+      axios
+        .post("http://jsonplaceholder.typicode.com/todos", {
+          title,
+          completed
+        })
+        .then(resp => (this.todolist_app = [...this.todolist_app, resp.data]))
+        .catch(err => console.log(err));
     }
+  },
+  created() {
+    axios
+      .get("http://jsonplaceholder.typicode.com/todos?_limit=10")
+      .then(response => (this.todolist_app = response.data))
+      .catch(err => console.log(err));
   }
 };
 </script>
