@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <!-- <p>Hello world</p> -->
     <Header/>
-    <!-- <AddTodo/> -->
+    <AddTodo v-on:add-todo="addTodo"/>
     <TodoList v-bind:todolist="todolist_app" v-on:del-todo="deleteTodo"/>
   </div>
 </template>
@@ -10,13 +9,13 @@
 <script>
 import Header from "./components/Header.vue";
 import TodoList from "./components/TodoList";
-// import AddTodo from "./components/AddTodo";
+import AddTodo from "./components/AddTodo";
 
 export default {
   name: "app",
   components: {
     Header,
-    // AddTodo,
+    AddTodo,
     TodoList
   },
   data() {
@@ -38,6 +37,9 @@ export default {
   methods: {
     deleteTodo(id) {
       this.todolist_app = this.todolist_app.filter(todo => todo.id != id);
+    },
+    addTodo(newTodo) {
+      this.todolist_app = [...this.todolist_app, newTodo];
     }
   }
 };

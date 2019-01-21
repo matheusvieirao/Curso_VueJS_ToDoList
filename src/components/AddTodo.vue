@@ -18,14 +18,16 @@ export default {
     };
   },
   methods: {
-    addTodo() {
+    addTodo(e) {
+      e.preventDefault(); //acho que nao esta funcionando. O form continua sendo submited
       const newTodo = {
-        id: uuid.v4(), //ver se o uuid esta instalado!
+        id: uuid.v4(),
         title: this.title,
         completed: false
       };
       // Send up to parent
       this.$emit("add-todo", newTodo);
+      this.title = "";
     }
   }
 };
