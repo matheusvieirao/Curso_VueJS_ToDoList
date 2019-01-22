@@ -1,61 +1,20 @@
 <template>
   <div id="app">
     <Header/>
-    <AddTodo v-on:add-todo="addTodo"/>
-    <TodoList v-bind:todolist="todolist_app" v-on:del-todo="deleteTodo"/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import TodoList from "./components/TodoList";
-import AddTodo from "./components/AddTodo";
-import axios from "axios";
-
+import Header from "./components/layout/Header";
 export default {
   name: "app",
   components: {
-    Header,
-    AddTodo,
-    TodoList
-  },
-  data() {
-    return {
-      todolist_app: []
-    };
-  },
-  methods: {
-    deleteTodo(id) {
-      axios
-        .delete(`http://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(
-          resp =>
-            (this.todolist_app = this.todolist_app.filter(
-              todo => todo.id != id
-            ))
-        )
-        .catch(err => console.log(err));
-    },
-    addTodo(newTodo) {
-      const { title, completed } = newTodo;
-
-      axios
-        .post("http://jsonplaceholder.typicode.com/todos", {
-          title,
-          completed
-        })
-        .then(resp => (this.todolist_app = [...this.todolist_app, resp.data]))
-        .catch(err => console.log(err));
-    }
-  },
-  created() {
-    axios
-      .get("http://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then(response => (this.todolist_app = response.data))
-      .catch(err => console.log(err));
+    Header
   }
 };
 </script>
+
 
 <style>
 * {
