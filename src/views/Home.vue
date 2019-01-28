@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AddTodo v-on:add-todo="addTodo"/>
+    <AddTodo v-on:addTodo="addTodo"/>
     <TodoList v-bind:todolist="todolist_app" v-on:del-todo="deleteTodo"/>
   </div>
 </template>
@@ -35,7 +35,6 @@ export default {
     },
     addTodo(newTodo) {
       const { title, completed } = newTodo;
-
       axios
         .post("http://jsonplaceholder.typicode.com/todos", {
           title,

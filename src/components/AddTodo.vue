@@ -2,7 +2,7 @@
   <div>
     <form>
       <input type="text" v-model="title" name="title" placeholder="Add Todo...">
-      <input type="submit" value="Submit" class="btn">
+      <input type="submit" value="Submit" class="btn" @click.prevent.stop="addTodo">
     </form>
   </div>
 </template>
@@ -16,15 +16,13 @@ export default {
     };
   },
   methods: {
-    addTodo(e) {
-      e.preventDefault(); //acho que nao esta funcionando. O form continua sendo submited
-      e.stopImmediatePropagation();
+    addTodo() {
       const newTodo = {
         title: this.title,
         completed: false
       };
       // Send up to parent
-      this.$emit("add-todo", newTodo);
+      this.$emit("addTodo", newTodo);
       this.title = "";
     }
   }
